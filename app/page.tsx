@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, ReactNode } from 'react'
 import {
   ArrowUpRight,
   ChevronDown,
@@ -16,6 +16,36 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+interface SidebarItemProps {
+  icon: ReactNode
+  label: string
+  active?: boolean
+}
+
+interface StatCardProps {
+  title: string
+  value: string
+  change: string
+  trend: 'up' | 'down'
+  description: string
+  subdescription: string
+}
+
+interface TabButtonProps {
+  children: ReactNode
+  active?: boolean
+  badge?: string | number | null
+}
+
+interface TableRowProps {
+  title: string
+  type: string
+  status: 'In Progress' | 'Done'
+  target: string
+  limit: string
+  reviewer: string
+}
+
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
@@ -27,7 +57,6 @@ export default function Dashboard() {
           backgroundImage: "url('/background.png')",
         }}
       />
-
       <div className="fixed inset-0 bg-black/10" />
 
       <div className="relative z-10 min-h-screen flex">
@@ -69,13 +98,11 @@ export default function Dashboard() {
                 icon={<Users className="h-4 w-4" />}
                 label="Team"
               />
-
               <div className="pt-4 pb-2">
                 <div className="px-3 text-xs font-medium text-white/70 drop-shadow-sm">
                   Documents
                 </div>
               </div>
-
               <SidebarItem
                 icon={<Menu className="h-4 w-4" />}
                 label="Data Library"
@@ -143,7 +170,6 @@ export default function Dashboard() {
                 description="Trending up this month"
                 subdescription="Visitors for the last 6 months"
               />
-
               <StatCard
                 title="New Customers"
                 value="1,234"
@@ -152,7 +178,6 @@ export default function Dashboard() {
                 description="Down 20% this period"
                 subdescription="Acquisition needs attention"
               />
-
               <StatCard
                 title="Active Accounts"
                 value="45,678"
@@ -161,7 +186,6 @@ export default function Dashboard() {
                 description="Strong user retention"
                 subdescription="Engagement exceed targets"
               />
-
               <StatCard
                 title="Growth Rate"
                 value="4.5%"
@@ -183,7 +207,6 @@ export default function Dashboard() {
                       Total for the last 3 months
                     </p>
                   </div>
-
                   <div className="flex items-center gap-2">
                     <TabButton active>Last 3 months</TabButton>
                     <TabButton>Last 30 days</TabButton>
@@ -226,7 +249,7 @@ export default function Dashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-white/20 bg-white/5">
-                      <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider w-8">
+                      <th className="px-6 py-3 w-8">
                         <input
                           type="checkbox"
                           className="glass-checkbox"
@@ -250,7 +273,7 @@ export default function Dashboard() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider drop-shadow-sm">
                         Reviewer
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider"></th>
+                      <th className="px-6 py-3" />
                     </tr>
                   </thead>
                   <tbody>
@@ -300,7 +323,6 @@ export default function Dashboard() {
 
               <div className="p-4 border-t border-white/20 flex items-center justify-between">
                 <div className="text-sm text-white/70 drop-shadow-sm">0 of 68 row(s) selected.</div>
-
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-white/70 drop-shadow-sm">Rows per page:</span>
@@ -310,9 +332,7 @@ export default function Dashboard() {
                       <option>50</option>
                     </select>
                   </div>
-
                   <div className="text-sm text-white drop-shadow-sm">Page 1 of 7</div>
-
                   <div className="flex items-center gap-1">
                     <button className="glass-button glass-interactive">
                       <ChevronLeft className="h-4 w-4" />
@@ -331,7 +351,8 @@ export default function Dashboard() {
   )
 }
 
-function SidebarItem({ icon, label, active = false }) {
+// Subcomponents
+function SidebarItem({ icon, label, active = false }: SidebarItemProps) {
   return (
     <button
       className={cn(
@@ -347,7 +368,7 @@ function SidebarItem({ icon, label, active = false }) {
   )
 }
 
-function StatCard({ title, value, change, trend, description, subdescription }) {
+function StatCard({ title, value, change, trend, description, subdescription }: StatCardProps) {
   return (
     <div className="glass-panel glass-card group hover:glass-card-hover transition-all duration-300">
       <div className="p-6">
@@ -365,19 +386,17 @@ function StatCard({ title, value, change, trend, description, subdescription }) 
         </div>
 
         <div className="text-2xl font-semibold text-white mb-4 drop-shadow-sm">{value}</div>
-
         <div className="flex items-center gap-1 text-sm text-white/90 drop-shadow-sm">
           {description}
           <ArrowUpRight className="h-3 w-3" />
         </div>
-
         <div className="text-xs text-white/60 mt-1 drop-shadow-sm">{subdescription}</div>
       </div>
     </div>
   )
 }
 
-function TabButton({ children, active = false, badge = null }) {
+function TabButton({ children, active = false, badge = null }: TabButtonProps) {
   return (
     <button
       className={cn(
@@ -397,7 +416,7 @@ function TabButton({ children, active = false, badge = null }) {
   )
 }
 
-function TableRow({ title, type, status, target, limit, reviewer }) {
+function TableRow({ title, type, status, target, limit, reviewer }: TableRowProps) {
   return (
     <tr className="border-b border-white/10 hover:bg-white/5 transition-colors duration-200">
       <td className="px-6 py-4 whitespace-nowrap">
